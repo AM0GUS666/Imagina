@@ -24,7 +24,7 @@ jobs:
       run: cmake --build build --config Release
 
     - name: Upload Release EXE
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: imagina-win64
         path: build/Release/imagina.exe
