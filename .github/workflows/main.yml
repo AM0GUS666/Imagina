@@ -1,0 +1,30 @@
+name: Windows Build
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Dependencies
+      run: |
+        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+        choco install mpir libpng -y
+
+    - name: Configure CMake
+      run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+    - name: Build Release
+      run: cmake --build build --config Release
+
+    - name: Upload Release EXE
+      uses: actions/upload-artifact@v3
+      with:
+        name: imagina-win64
+        path: build/Release/imagina.exe
